@@ -56,10 +56,11 @@ public class ImageController : ControllerBase
         }
         _logger.LogError($"File upload is success {nameof(UploadFiles)}");
         
-        // TODO: These lines are throwing null exception
+        // TODO: These lines are throwing null exception but adding to the database ???
 
-        //await _unitOfWork.Files.InsertRange(imageEntity);
-        //await _unitOfWork.SaveAsync();
+        await _unitOfWork.Files.InsertRange(imageEntity);
+        await _unitOfWork.SaveAsync();
+
         return Ok("Upload Success");
 
     }

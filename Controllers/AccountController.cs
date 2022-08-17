@@ -98,4 +98,20 @@ public class AccountController : ControllerBase
         return Ok(results);
     }
 
+    [HttpGet("{id:long}")]
+    [ResponseCache(CacheProfileName = "SecondsDuration")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetAuthor(string id)
+    {
+        var author = await _unitOfWork.Authors.GetAllAsync(q => q.Id == id);
+        if (author == null)
+        {
+            _logger.LogError($"Invalid User attemp in {nameof(GetAuthor)}");
+            return BadRequest("Submitted data is invalid");
+        }
+        return Ok(author);
+
+    }
+
 }

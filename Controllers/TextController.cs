@@ -47,7 +47,7 @@ namespace QulixTest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateText([FromBody] CreateTextDTO collectionDTO)
+        public async Task<IActionResult> CreateText([FromBody] CreateTextDTO textnDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -55,7 +55,7 @@ namespace QulixTest.Controllers
                 return BadRequest(ModelState);
             }
 
-            var text = _mapper.Map<Text>(collectionDTO);
+            var text = _mapper.Map<Text>(textnDTO);
 
             await _unitOfWork.Texts.Insert(text);
 
@@ -69,7 +69,7 @@ namespace QulixTest.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateText(long id, [FromBody] UpdateTextDTO updateCollection)
+        public async Task<IActionResult> UpdateText(long id, [FromBody] UpdateTextDTO updateText)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace QulixTest.Controllers
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(updateCollection, text);
+            _mapper.Map(updateText, text);
             _unitOfWork.Texts.Update(text);
             await _unitOfWork.SaveAsync();
 
